@@ -11,7 +11,7 @@
                  class="card-img-top"
                  alt="{{ $product->name }}"
                  style="height: 200px; object-fit: cover;">
-        </a>
+        </a>    
 
         {{-- Badge Diskon --}}
         @if($product->has_discount)
