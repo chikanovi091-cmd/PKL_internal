@@ -1,72 +1,75 @@
 @extends('layouts.app')
+
+@section('title', 'Checkout')
+
 @section('content')
+<div class="container py-5">
+    <h1 class="h3 fw-bold mb-4">Checkout</h1>
 
-<div class="container max-w-7xl mx-auto px-4 py-8">
-    <h1 class="h2 mb-5 fw-bold">Checkout</h1>
-
-    <form action="{{ route('checkout.store') }}" method="POST">
+      <form action="{{ route('checkout.store') }}" method="POST">
         @csrf
 
-        <div class="row g-5">
-            <!-- Form Informasi Pengiriman -->
+        <div class="row g-4">
+
+            {{-- Form Alamat --}}
             <div class="col-lg-8">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mb-4">
                     <div class="card-body">
-                        <h2 class="h5 card-title mb-4">Informasi Pengiriman</h2>
+                        <h5 class="card-title mb-3">Informasi Pengiriman</h5>
 
-                        <div class="row g-4">
-                            <div class="col-12">
-                                <label for="name" class="form-label">Nama Penerima</label>
-                                <input type="text" name="name" id="name" class="form-control"
-                                    value="{{ auth()->user()->name }}" required>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Penerima</label>
+                            <input type="text" name="name" value="{{ auth()->user()->name }}" class="form-control"
+                                required>
+                        </div>
 
-                            <div class="col-12">
-                                <label for="phone" class="form-label">Nomor Telepon</label>
-                                <input type="text" name="phone" id="phone" class="form-control" required>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nomor Telepon</label>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
 
-                            <div class="col-12">
-                                <label for="address" class="form-label">Alamat Lengkap</label>
-                                <textarea name="address" id="address" rows="4" class="form-control" required></textarea>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Alamat Lengkap</label>
+                            <textarea name="address" rows="3" class="form-control" required></textarea>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Ringkasan Pesanan -->
+            {{-- Order Summary --}}
             <div class="col-lg-4">
-                <div class="card shadow-sm sticky-top" style="top: 1.5rem;">
+                <div class="card shadow-sm sticky-top" style="top: 100px;">
                     <div class="card-body">
-                        <h2 class="h5 card-title mb-4">Ringkasan Pesanan</h2>
+                        <h5 class="card-title mb-3">Ringkasan Pesanan</h5>
 
-                        <div class="mb-4" style="max-height: 300px; overflow-y: auto;">
+                        <div class="mb-3" style="max-height: 250px; overflow-y:auto;">
                             @foreach($cart->items as $item)
-                            <div class="d-flex justify-content-between mb-2 small text-muted">
-                                <span>{{ $item->product->name }} × {{ $item->quantity }}</span>
-                                <span class="fw-medium text-dark">Rp {{ number_format($item->subtotal, 0, ',', '.')
-                                    }}</span>
+                            <div class="d-flex justify-content-between small mb-2">
+                                <span>{{ $item->product->name }} x {{ $item->quantity }}</span>
+                                <span class="fw-semibold">
+                                    Rp {{ number_format($item->subtotal, 0, ',', '.') }}
+                                </span>
                             </div>
                             @endforeach
                         </div>
 
-                        <hr class="my-4">
+                        <hr>
 
-                        <div class="d-flex justify-content-between mb-4">
-                            <span class="h6 mb-0">Total</span>
-                            <span class="h6 mb-0 fw-bold">Rp {{ number_format($cart->items->sum('subtotal'), 0, ',',
-                                '.') }}</span>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>Total</span>
+                            <span>
+                                Rp {{ number_format($cart->items->sum('subtotal'), 0, ',', '.') }}
+                            </span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">
+                        <button type="submit" class="btn btn-primary w-100 mt-4">
                             Buat Pesanan
                         </button>
                     </div>
                 </div>
             </div>
+
         </div>
     </form>
 </div>
-
 @endsection

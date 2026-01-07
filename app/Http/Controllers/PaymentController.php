@@ -41,11 +41,11 @@ class PaymentController extends Controller
 
     public function success(Order $order)
     {
-        // Cek apakah ini memang milik user yang login
-        if ($order->user_id !== auth()->id()) {
-            abort(403);
-        }
-        // UPDATE STATUS MANUAL (Sambil nunggu materi Webhook)
+    // Cek apakah ini memang milik user yang login
+    if ($order->user_id !== auth()->id()) {
+        abort(403);
+    }
+    // UPDATE STATUS MANUAL (Sambil nunggu materi Webhook)
         if ($order->status === 'pending') {
             $order->update([
                 'status' => 'processing',
@@ -53,7 +53,7 @@ class PaymentController extends Controller
             ]);
         }
 
-        return redirect()->route('orders.show', $order)->with('success', 'Pembayaran berhasil diproses!');
+    return redirect()->route('orders.show', $order)->with('success', 'Pembayaran berhasil diproses!');
     }
 
     public function pending(Order $order)
@@ -77,11 +77,11 @@ class PaymentController extends Controller
     }
 
     public function handle(Request $request)
-    {
-        // Coba log dulu untuk ngetes apakah data masuk
-        \Log::info('Data Midtrans Masuk!', $request->all());
-
-        // Logika update status kamu di sini...
-        return response()->json(['status' => 'success']);
-    }
+{
+    // Coba log dulu untuk ngetes apakah data masuk
+    \Log::info('Data Midtrans Masuk!', $request->all());
+    
+    // Logika update status kamu di sini...
+    return response()->json(['status' => 'success']);
+}
 }
